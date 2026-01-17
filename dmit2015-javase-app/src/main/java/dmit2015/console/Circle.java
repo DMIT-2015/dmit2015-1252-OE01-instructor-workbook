@@ -6,7 +6,7 @@ package dmit2015.console;
  * @author Sam Wu
  * @version 2026.01.14
  */
-public class Circle {
+public class Circle implements Shape {
     // Define a field to track the radius of this circle
     private double radius;
 
@@ -39,6 +39,7 @@ public class Circle {
         setRadius(radius);
     }
 
+    @Override
     public double getArea() {
         return Math.PI * radius * radius;
     }
@@ -47,6 +48,7 @@ public class Circle {
         return 2 * radius;
     }
 
+    @Override
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
