@@ -1,0 +1,37 @@
+<!-- This is a Faces composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="example1-commandbutton"/>
+
+    <!-- Define main content for the page -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Example 1 – CommandButton: Action vs ActionListener </h1>
+            <h:form id="example1-commandbutton_form" role="form">
+                <p:panel header="Welcome to Example 1 – CommandButton: Action vs ActionListener ">
+                    <!-- Add page-specific content here, e.g., PrimeFaces components -->
+<p:commandButton value="Action Listener"
+                actionListener="#{example1CommandButtonRequest.onSubmitActionListener()}"/>
+<p:commandButton value="Action"
+                 action="#{example1CommandButtonRequest.onSubmitAction()}"
+                 />
+<p:commandButton value="Forward to HelloWorld"
+                 action="#{example1CommandButtonRequest.onNavigateToHelloWorldForward()}"
+                 />
+<p:commandButton value="Redirect to HelloWorld"
+                 action="#{example1CommandButtonRequest.onNavigateToHelloWorldRedirect()}"
+                 />
+
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
