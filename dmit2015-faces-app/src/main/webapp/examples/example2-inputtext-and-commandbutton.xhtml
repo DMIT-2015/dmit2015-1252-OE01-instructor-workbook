@@ -1,0 +1,42 @@
+<!-- This is a Faces composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="example2-inputtext-and-commandbutton"/>
+
+    <!-- Define main content for the page -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Example 2 – InputText and CommandButton</h1>
+            <h:form id="example2-inputtext-and-commandbutton_form" role="form">
+                <p:panel header="Welcome to Example 2 – InputText and CommandButton">
+                    <!-- Add page-specific content here, e.g., PrimeFaces components -->
+<div class="field">
+    <p:outputLabel for="@next">Your name:</p:outputLabel>
+    <p:inputText id="username"
+                 value="#{example2InputTextAndCommandButtonRequest.username}"/>
+</div>
+                    <div class="card">
+                        <p:commandButton value="Submit"
+                                         action="#{example2InputTextAndCommandButtonRequest.onSubmit()}"
+                        />
+                        <p:commandButton value="Clear"
+                                         styleClass="ui-button-secondary"
+                                         action="#{example2InputTextAndCommandButtonRequest.onClear()}"
+                                         immediate="true"
+                                         process="@this"
+                                         update="@form" />
+                    </div>
+
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>
