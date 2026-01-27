@@ -1,0 +1,56 @@
+<!-- This is a Faces composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="example3-datatable"/>
+
+    <!-- Define main content for the page -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Example 3 - InputText, DataTable, and CommandButton</h1>
+            <h:form id="example3-datatable_form" role="form">
+                <p:panel header="Welcome to Example 3 - InputText, DataTable, and CommandButton">
+                    <!-- Add page-specific content here, e.g., PrimeFaces components -->
+                    <!-- add a text field and button to allow adding new tasks. -->
+                    <div class="field">
+                        <p:outputLabel for="@next">Task</p:outputLabel>
+                        <p:inputText id="description"
+                                     value="#{example3InputTextDataTableAndCommandButtonView.currentTask.description}"
+                                     />
+                        <p:message for="description" />
+                    </div>
+                    <p:commandButton value="Add Task"
+                                     action="#{example3InputTextDataTableAndCommandButtonView.onSubmitAddTask()}"
+                                     update="@form taskTable"
+                                     />
+
+                    <!-- Display the list in a <p:dataTable>. -->
+                    <p:dataTable id="taskTable"
+                                 value="#{example3InputTextDataTableAndCommandButtonView.tasks}"
+                                 var="currentTask">
+                        <p:column headerText="Description">
+                            <h:outputText value="#{currentTask.description}" />
+                        </p:column>
+                        <p:column headerText="Action">
+                            <p:commandButton value="Delete"
+                                 actionListener="#{example3InputTextDataTableAndCommandButtonView.onRemoveTask(currentTask)}"
+                                             immediate="true"
+                                             process="@this"
+                                             update="taskTable"
+                                             />
+
+                        </p:column>
+                    </p:dataTable>
+
+                </p:panel>
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

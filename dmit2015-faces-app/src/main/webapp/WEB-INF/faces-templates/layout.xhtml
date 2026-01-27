@@ -51,7 +51,8 @@
                                           outcome="/examples/example1-commandbutton"/>
                                 <p:menuitem value="InputText and CommandButton"
                                         outcome="/examples/example2-inputtext-and-commandbutton"/>
-
+                                <p:menuitem value="DataTable"
+                                            outcome="/examples/example3-datatable" />
                             </p:submenu>
 
                         </p:menubar>
@@ -65,7 +66,9 @@
         <p:messages id="messages" showDetail="false" closable="true">
             <p:autoUpdate/>
         </p:messages>
-        <p:growl id="growl" autoUpdate="true" life="3000"/>
+        <p:growl id="growl" life="3000">
+            <p:autoUpdate />
+        </p:growl>
 
         <ui:insert name="maincontent">
             NO MAIN CONTENT PROVIDED
