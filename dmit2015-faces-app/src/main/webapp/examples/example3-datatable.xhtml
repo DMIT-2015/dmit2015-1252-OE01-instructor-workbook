@@ -25,9 +25,20 @@
                                      />
                         <p:message for="description" />
                     </div>
+                    <div class="field">
+                        <p:outputLabel for="@next">Priority</p:outputLabel>
+                        <p:selectOneMenu id="priority"
+                                         value="#{example3InputTextDataTableAndCommandButtonView.currentTask.priority}">
+                            <f:selectItem itemLabel="-- select priority --" itemValue="" />
+                            <f:selectItem itemLabel="Low" itemValue="Low" />
+                            <f:selectItem itemLabel="Medium" itemValue="Medium" />
+                            <f:selectItem itemLabel="High" itemValue="High" />
+                        </p:selectOneMenu>
+                        <p:message for="priority" />
+                    </div>
                     <p:commandButton value="Add Task"
                                      action="#{example3InputTextDataTableAndCommandButtonView.onSubmitAddTask()}"
-                                     update="@form taskTable"
+                                     update="@form @form:taskTable"
                                      />
 
                     <!-- Display the list in a <p:dataTable>. -->
@@ -37,40 +48,48 @@
                         <p:column headerText="Description">
                             <h:outputText value="#{currentTask.description}" />
                         </p:column>
-                        <p:column headerText="Action">
-                            <p:commandButton value="Delete"
-                                 actionListener="#{example3InputTextDataTableAndCommandButtonView.onRemoveTask(currentTask)}"
-                                             immediate="true"
-                                             process="@this"
-                                             update="taskTable"
-                                             />
+                        <p:column headerText="Priority">
+                            <h:outputText value="#{currentTask.priority}" />
+                        </p:column>
+                        <p:column headerText="Done">
+                            <p:selectBooleanCheckbox value="#{currentTask.done}">
+                                <p:ajax
+                                        listener="#{example3InputTextDataTableAndCommandButtonView.onTaskDone(currentTask)}"
+                                        update="@form:taskTable @form:completedTaskTable"
+                                        process="@this" />
+                            </p:selectBooleanCheckbox>
+                        </p:column>
 
-                            <p:commandButton value="Confirm"
+                    </p:dataTable>
+
+                    <p:dataTable id="completedTaskTable"
+                                 value="#{example3InputTextDataTableAndCommandButtonView.completedTasks}"
+                                 var="currentTask">
+                        <p:column headerText="Description">
+                            <h:outputText value="#{currentTask.description}"
+                                style="text-decoration: line-through; color:red;"/>
+                        </p:column>
+                        <p:column headerText="Priority">
+                            <h:outputText value="#{currentTask.priority}" />
+                        </p:column>
+                        <p:column headerText="Done">
+                            <p:selectBooleanCheckbox value="#{currentTask.done}">
+                                <p:ajax
+                                        listener="#{example3InputTextDataTableAndCommandButtonView.onTaskUndone(currentTask)}"
+                                        update="@form:taskTable @form:completedTaskTable"
+                                        process="@this" />
+                            </p:selectBooleanCheckbox>
+                        </p:column>
+                        <p:column headerText="Action">
+
+                            <p:commandButton value="Delete"
                                              actionListener="#{example3InputTextDataTableAndCommandButtonView.onRemoveTask(currentTask)}"
                                              immediate="true"
                                              process="@this"
-                                             update="taskTable"
+                                             update="@form:completedTaskTable"
                                              styleClass="ui-button-danger mr-2"
                                              icon="pi pi-times">
                                 <p:confirm type="popup" header="Confirmation" message="Are you sure you want to delete this record?" icon="pi pi-exclamation-triangle"/>
-                            </p:commandButton>
-
-                            <p:commandButton value="Delete"
-                                             actionListener="#{example3InputTextDataTableAndCommandButtonView.onRemoveTask(currentTask)}"
-                                             immediate="true"
-                                             process="@this"
-                                             update="taskTable"
-                                             styleClass="ui-button-danger mr-2"
-                                             icon="pi pi-times">
-                                <p:confirm type="popup" header="Delete"
-                                           message="Do you want to delete this record?"
-                                           icon="pi pi-info-circle"
-                                           yesButtonLabel="Delete Me!"
-                                           yesButtonClass="bg-red-600 text-white"
-                                           yesButtonIcon="pi pi-trash"
-                                           noButtonLabel="Keep this!"
-                                           noButtonClass="bg-green-600 text-white"
-                                           noButtonIcon="pi pi-heart"/>
                             </p:commandButton>
 
                         </p:column>

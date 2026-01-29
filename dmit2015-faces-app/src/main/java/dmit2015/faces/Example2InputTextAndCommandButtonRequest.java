@@ -3,6 +3,7 @@ package dmit2015.faces;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import net.datafaker.Faker;
@@ -23,6 +24,7 @@ public class Example2InputTextAndCommandButtonRequest {
 
     @Getter @Setter
     @NotBlank(message = "Username value is required")
+    @Size(min = 2, message="Username must contain {min} or more characters")
     private String username;
 
     public void onSubmit() {

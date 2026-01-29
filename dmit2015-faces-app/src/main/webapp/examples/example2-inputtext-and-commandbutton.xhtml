@@ -20,11 +20,14 @@
 <div class="field">
     <p:outputLabel for="@next">Your name:</p:outputLabel>
     <p:inputText id="username"
-                 value="#{example2InputTextAndCommandButtonRequest.username}"/>
+                 value="#{example2InputTextAndCommandButtonRequest.username}"
+    />
+    <p:message for="username" />
 </div>
                     <div class="card">
                         <p:commandButton value="Submit"
                                          action="#{example2InputTextAndCommandButtonRequest.onSubmit()}"
+                                         update="@form"
                         />
                         <p:commandButton value="Clear"
                                          styleClass="ui-button-secondary"

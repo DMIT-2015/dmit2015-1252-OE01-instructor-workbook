@@ -1,10 +1,12 @@
 package dmit2015.faces;
 
 import dmit2015.model.Task;
+import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import net.datafaker.Faker;
 import org.omnifaces.util.Messages;
 
 import java.io.Serial;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.random.RandomGenerator;
 
 /**
  * View-scoped backing bean: lives across postbacks on the SAME view.
@@ -29,8 +32,52 @@ public class Example3InputTextDataTableAndCommandButtonView implements Serializa
     @Getter
     private List<Task> tasks = new ArrayList<>();   // The list of tasks added
 
+    @Getter
+    private List<Task> completedTasks = new ArrayList<>();
+
     @Getter @Setter
     private Task currentTask = new Task();  // The task to add
+
+    @PostConstruct
+    public void init() {
+        // Seed tasks with 5 records
+        var faker = new Faker();
+        String[] priorities = {"Low","Medium","High"};
+        var randomGenerator = RandomGenerator.getDefault();
+        for (int counter = 1; counter <= 5; counter++) {
+            // Crate a new Task
+            Task currentTask = new Task();
+            // Assigned a random description using a location from the Fallout provider
+            currentTask.setDescription("Nuke " + faker.fallout().location());
+            // Assign a random priority (Low,Medium,High)
+            int randomIndex = randomGenerator.nextInt(0, priorities.length);
+            String randomPriority = priorities[randomIndex];
+            currentTask.setPriority(randomPriority);
+            // Assign a random done status (true/false)
+            currentTask.setDone(randomGenerator.nextBoolean());
+            // Add the currentTask to our list of tasks
+            if (currentTask.isDone()) {
+                completedTasks.add(currentTask);
+            } else {
+                tasks.add(currentTask);
+            }
+
+        }
+    }
+
+    public void onTaskDone(Task selectedTask) {
+        selectedTask.setDone(true);
+        completedTasks.add(selectedTask);
+        tasks.remove(selectedTask);
+        Messages.addGlobalInfo("Task {0} is done", selectedTask);
+    }
+
+    public void onTaskUndone(Task selectedTask) {
+        selectedTask.setDone(false);
+        tasks.add(selectedTask);
+        completedTasks.remove(selectedTask);
+        Messages.addGlobalInfo("Task {0} is undone", selectedTask);
+    }
 
     public void onSubmitAddTask() {
         try {
@@ -51,7 +98,8 @@ public class Example3InputTextDataTableAndCommandButtonView implements Serializa
     }
 
     public void onRemoveTask(Task selectedTask) {
-        tasks.remove(selectedTask);
+        completedTasks.remove(selectedTask);
+        Messages.addGlobalInfo("Removed task {0}", selectedTask);
     }
 
     /**
