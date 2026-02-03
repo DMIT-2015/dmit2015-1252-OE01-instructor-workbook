@@ -1,7 +1,7 @@
 package dmit2015.model;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +10,12 @@ import net.datafaker.Faker;
 import java.util.UUID;
 import java.util.random.RandomGenerator;
 
+/**
+ * This class tracks info on tasks to be completed.
+ *
+ * @author Sam Wu
+ * @version 2026.02.02
+ */
 //@ToString()
 //@Getter @Setter
 @Data   // includes @Getter, @Setter, @ToString, and more
@@ -23,9 +29,11 @@ public class Task {
             message = "Task description must contain {min} and {max} characters in length.")
     private String description;
 
-    @NotBlank(message = "Priority must be Low, Medium, or High")
-    @Pattern(regexp = "(?i)Low|Medium|High", message = "Priority must be Low, Medium, or High")
-    private String priority;    // Low, Medium, High
+//    @NotBlank(message = "Priority must be Low, Medium, or High")
+//    @Pattern(regexp = "(?i)Low|Medium|High", message = "Priority must be Low, Medium, or High")
+//    private String priority;    // Low, Medium, High
+    @NotNull(message = "Priority must be selected.")
+    private TaskPriority priority;
 
     private boolean done;
 
@@ -46,10 +54,12 @@ public class Task {
         currentTask.setId(UUID.randomUUID().toString());
         currentTask.setDescription("Nuke " + faker.fallout().location());
         // Define a array of possible values
-        String[] possiblePriorities = {"Low","Medium","High"};
+//        String[] possiblePriorities = {"Low","Medium","High"};
+        TaskPriority[] possiblePriorities = TaskPriority.values();
         // Generate an index to pick from the array
         int randomIndex = RandomGenerator.getDefault().nextInt(0, possiblePriorities.length);
         currentTask.setPriority(possiblePriorities[randomIndex]);
+
         currentTask.setDone(RandomGenerator.getDefault().nextBoolean());
         return currentTask;
     }

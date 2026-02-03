@@ -52,7 +52,7 @@ public class Example3InputTextDataTableAndCommandButtonView implements Serializa
             // Assign a random priority (Low,Medium,High)
             int randomIndex = randomGenerator.nextInt(0, priorities.length);
             String randomPriority = priorities[randomIndex];
-            currentTask.setPriority(randomPriority);
+//            currentTask.setPriority(randomPriority);
             // Assign a random done status (true/false)
             currentTask.setDone(randomGenerator.nextBoolean());
             // Add the currentTask to our list of tasks

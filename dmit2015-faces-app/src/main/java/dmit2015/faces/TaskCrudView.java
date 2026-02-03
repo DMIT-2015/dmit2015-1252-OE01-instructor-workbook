@@ -1,6 +1,7 @@
 package dmit2015.faces;
 
 import dmit2015.model.Task;
+import dmit2015.model.TaskPriority;
 import dmit2015.service.TaskService;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
@@ -13,8 +14,6 @@ import org.omnifaces.util.Messages;
 import org.primefaces.PrimeFaces;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -24,6 +23,11 @@ import java.util.List;
 @Named("currentTaskCrudView")
 @ViewScoped // create this object for one HTTP request and keep in memory if the next is for the same page
 public class TaskCrudView implements Serializable {
+
+    // For binding to <p:selectOneMenu> using <f:selectItems >
+    public TaskPriority[] getTaskPriorites() {
+        return TaskPriority.values();
+    }
 
     @Inject
     @Named("memoryTaskService")

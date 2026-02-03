@@ -122,9 +122,14 @@
                                         value="#{currentTaskCrudView.selectedTask.priority}">
                                     <f:selectItem itemLabel="--select a priority"
                                                   itemValue="" />
-                                    <f:selectItem itemLabel="Low" itemValue="Low" />
-                                    <f:selectItem itemLabel="Medium" itemValue="Medium" />
-                                    <f:selectItem itemLabel="High" itemValue="High" />
+<!--                                    <f:selectItem itemLabel="Low" itemValue="Low" />-->
+<!--                                    <f:selectItem itemLabel="Medium" itemValue="Medium" />-->
+<!--                                    <f:selectItem itemLabel="High" itemValue="High" />-->
+                                    <f:selectItems value="#{currentTaskCrudView.taskPriorites}"
+                                                   var="item"
+                                                   itemLabel="#{item}"
+                                                   itemValue="#{item}"
+                                                   />s
                                 </p:selectOneMenu>
                                 <p:message for="priority" />
                             </div>
