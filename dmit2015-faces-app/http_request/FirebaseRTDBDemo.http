@@ -1,0 +1,32 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+# curl -X PUT -d '{
+#  "alanisawesome": {
+#    "name": "Alan Turing",
+#    "birthday": "June 23, 1912"
+#  }
+#}' 'https://docs-examples.firebaseio.com/fireblog/users.json'
+PUT https://dmit2015-1252-oe01-swu-default-rtdb.asia-southeast1.firebasedatabase.app/fireblog/users.json
+Content-Type: application/json
+
+{
+  "alanisawesome": {
+    "name": "Alan Turing",
+    "birthday": "June 23, 1912"
+  }
+}
+
+###
+POST https://dmit2015-1252-oe01-swu-default-rtdb.asia-southeast1.firebasedatabase.app/fireblog/users.json
+Content-Type: application/json
+
+{
+  "alanisawesome": {
+    "name": "Alan Turing",
+    "birthday": "June 23, 1912"
+  }
+}
