@@ -20,7 +20,11 @@
               value=".Tasks-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
 
     <ui:define name="maincontent">
-        
+
+        <f:metadata>
+            <f:viewAction action="#{firebaseAuthSignInSession.checkForToken}" />
+        </f:metadata>
+
         <f:metadata>
             <f:viewAction action="#{firebaseAuthSignInSession.checkForToken}" />
         </f:metadata>

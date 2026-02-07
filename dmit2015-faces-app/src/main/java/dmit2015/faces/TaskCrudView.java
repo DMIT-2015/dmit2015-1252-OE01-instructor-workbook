@@ -31,7 +31,8 @@ public class TaskCrudView implements Serializable {
 
     @Inject
 //    @Named("memoryTaskService")
-    @Named("firebaseHttpClientTaskService")
+//    @Named("firebaseHttpClientTaskService")
+    @Named("firebaseMultiTenantHttpClientTaskService")
     private TaskService taskService;
 
     /**
