@@ -6,7 +6,7 @@ POST https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={
 Content-Type: application/json
 
 {
-  "email": "user01@dmit2015.ca",
+  "email": "user02@dmit2015.ca",
   "password": "Password2015",
   "returnSecureToken": true
 }
