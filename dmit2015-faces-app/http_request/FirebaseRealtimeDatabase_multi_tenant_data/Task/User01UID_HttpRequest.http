@@ -1,0 +1,13 @@
+// Firebase Realtime Database stores JSON data in a JSON Tree structure
+
+### Get all Task data for user01 using localId and idToken from a sign in Http Request
+// "localId": "value return from POST to https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword",
+@localId = valueWithoutTheQuotes
+// "idToken": "value return from POST to https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword",
+@user1IdToken = valueWithoutTheQuotes
+GET https://dmit2015-1252-oe01-swu-default-rtdb.asia-southeast1.firebasedatabase.app/multi_tenant_data/Task/{{localId}}.json?auth={{user1IdToken}}
+
+### Get all Task data for user02 using user02 idToken
+// "idToken": "value return from POST to https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword",
+@user2IdToken = valueWithoutTheQuotes
+GET https://dmit2015-1252-oe01-swu-default-rtdb.asia-southeast1.firebasedatabase.app/multi_tenant_data/Task/{{localId}}.json?auth={{user2IdToken}}
