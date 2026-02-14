@@ -33,12 +33,12 @@ public class MovieInitializer {
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
         LOGGER.info("Initializing movies");
 
-        try {
-            movieRepository.deleteAll();
-        } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Failed to delete existing movies during initialization.", ex);
-            return;
-        }
+//        try {
+//            movieRepository.deleteAll();
+//        } catch (Exception ex) {
+//            LOGGER.log(Level.SEVERE, "Failed to delete existing movies during initialization.", ex);
+//            return;
+//        }
 
         long count;
         try {

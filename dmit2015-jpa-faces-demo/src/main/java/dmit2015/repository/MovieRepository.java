@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class MovieRepository {
-    @PersistenceContext //(unitName = "h2database-jpa-pu") // unitName is optional if persistence.xml contains only one persistence-unit
+
+    @PersistenceContext (unitName = "mssql-dmit2015-jpa-pu") // unitName is optional if persistence.xml contains only one persistence-unit
     private EntityManager em;
 
     @Transactional
