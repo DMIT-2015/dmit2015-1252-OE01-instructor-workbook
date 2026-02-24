@@ -58,7 +58,7 @@ class MovieRepositoryIT {
     @Order(1)
     @Test
     void findAll_whenSeeded_returnsFourMoviesInExpectedOrder() {
-        // Act
+        // Arrange and Act
         List<Movie> movies = movieRepository.findAll();
 
         // Assert
