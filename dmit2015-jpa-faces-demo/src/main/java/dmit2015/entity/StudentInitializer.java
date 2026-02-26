@@ -1,8 +1,10 @@
 package dmit2015.entity;
 
+import dmit2015.repository.StudentRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -10,32 +12,27 @@ import jakarta.transaction.Transactional;
 @ApplicationScoped
 public class StudentInitializer {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Inject
+    private StudentRepository studentRepository;
 
     @Transactional
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
 
-        long studentCount = entityManager
-                .createQuery("select count(s) from Student s", Long.class)
-                .getSingleResult();
+        long studentCount = studentRepository.count();
         if (studentCount == 0) {
             // Create and seed the database with 3 sample records
-            var student1 = new Student();
-            student1.setFirstName("Jon");
-            student1.setLastName("Snow");
-            entityManager.persist(student1);
-
-            var student2 = new Student();
-            student2.setFirstName("Bart");
-            student2.setLastName("GlassFish");
-            entityManager.persist(student2);
-
-            var student3 = new Student();
-            student3.setFirstName("Amanda");
-            student3.setLastName("Tapping");
-            entityManager.persist(student3);
+            Seed("Nazor","Bilinskyi");
+            Seed("Na Eun","Chin");
+            Seed("Priyanka","Pawar");
         }
 
+    }
+
+    @Transactional
+    private void Seed(String firstName, String lastName) {
+        var currentStudent = new Student();
+        currentStudent.setFirstName(firstName);
+        currentStudent.setLastName(lastName);
+        studentRepository.add(currentStudent);
     }
 }

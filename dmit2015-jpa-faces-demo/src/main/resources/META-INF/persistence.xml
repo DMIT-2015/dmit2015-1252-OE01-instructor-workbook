@@ -6,8 +6,10 @@
 
         <persistence-unit name="mssql-dmit2015-jpa-pu" transaction-type="JTA">
             <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-            <jta-data-source>java:app/datasources/MSSQLServerDS</jta-data-source>
+            <jta-data-source>java:app/datasources/H2DatabaseDS</jta-data-source>
 
+            <class>dmit2015.entity.Movie</class>
+            <class>dmit2015.entity.Student</class>
             <!-- Data source to use with wildfly-datasources-galleon-pack
                 https://github.com/wildfly-extras/wildfly-datasources-galleon-pack -->
         <!--        <jta-data-source>java:jboss/datasources/MSSQLServerDS</jta-data-source>-->
