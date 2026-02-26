@@ -17,7 +17,7 @@
             <properties>
                 <!-- database.action: none, create, drop-and-create, drop, validate -->
                 <property name="jakarta.persistence.schema-generation.database.action"
-                          value="none"/>
+                          value="drop-and-create"/>
             </properties>
         </persistence-unit>
 
