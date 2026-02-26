@@ -1,0 +1,87 @@
+<!-- This is a JSF composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="index"/>
+    <ui:param name="description" value="Description for index page"/>
+    <ui:param name="keywords" value="jakarta, jsf, primefaces, index"/>
+
+    <!-- === Main Content Section === -->
+    <!-- Defines the primary content area rendered in the layout's <ui:insert name="maincontent"> -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Manage Students</h1>
+
+            <h:form id="index_form" role="form">
+                <!-- Optional: Set focus on the first input field -->
+                <!-- <p:focus for=":textValue" /> -->
+
+                <p:panel id="formPanel" header="Welcome to Manage Students" role="region" aria-label="Form Input Panel">
+                    <div class="ui-fluid">
+
+                        <div class="field">
+                            <p:outputLabel for="@next" value="First Name"/>
+                            <p:inputText id="firstName" value="#{manageStudentsView.currentStudent.firstName}"/>
+                            <p:message for="firstName" />
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next" value="Last Name"/>
+                            <p:inputText id="lastName" value="#{manageStudentsView.currentStudent.lastName}"/>
+                            <p:message for="lastName" />
+                        </div>
+
+                        <!-- Buttons for form submission and clearing -->
+                        <div class="formgroup-inline">
+                            <div class="field">
+                                <p:commandButton value="Submit"
+                                                 action="#{manageStudentsView.onSubmit}"
+                                                 update=":messages :growl @form manageStudentsView_tableForm:dataTable"/>
+                            </div>
+                            <div class="field">
+                                <p:commandButton value="Clear"
+                                                 action="#{manageStudentsView.onClear}"
+                                                 update="@form :outputPanel"
+                                                 process="@this"
+                                                 styleClass="ui-button-secondary"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </p:panel>
+            </h:form>
+
+            <h:form id="manageStudentsView_tableForm">
+                <div class="card">
+                    <p:dataTable id="dataTable"
+                                 value="#{manageStudentsView.students}"
+                                 var="it"
+                                 reflow="true"
+                                 rowKey="#{it.id}"
+                                 paginator="true" rows="10"
+                                 role="grid" aria-label="Data Table">
+
+                        <p:column headerText="First Name">
+                            <h:outputText value="#{it.firstName}" />
+                        </p:column>
+
+                        <p:column headerText="Last Name">
+                            <h:outputText value="#{it.lastName}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                </div>
+            </h:form>
+
+        </div>
+    </ui:define>
+
+</ui:composition>
