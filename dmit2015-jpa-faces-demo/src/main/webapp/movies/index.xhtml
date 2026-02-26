@@ -1,0 +1,122 @@
+<!-- This is a JSF composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="index"/>
+    <ui:param name="description" value="Description for index page"/>
+    <ui:param name="keywords" value="jakarta, jsf, primefaces, index"/>
+
+    <!-- === Main Content Section === -->
+    <!-- Defines the primary content area rendered in the layout's <ui:insert name="maincontent"> -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Manage Movies</h1>
+            <!-- Conditional render example (change rendered to an EL expression) -->
+            <p:outputPanel id="outputPanel">
+                <h:outputText rendered="false" value="Hello Faces World!"/>
+            </p:outputPanel>
+
+            <h:form id="index_form" role="form">
+                <p:panel id="formPanel" header="Welcome to Manage Movies" role="region" aria-label="Form Input Panel">
+                    <div class="ui-fluid">
+
+                        <!-- === Form Input Components === -->
+                        <!-- Text input field for capturing string data -->
+
+                        <div class="field">
+                            <p:outputLabel for="@next" value="Title"/>
+                            <p:inputText id="title" value="#{manageMoviesView.currentMovie.title}"/>
+                            <p:message for="title" />
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next" value="Genre"/>
+                            <p:inputText id="genre" value="#{manageMoviesView.currentMovie.genre}"/>
+                            <p:message for="genre" />
+                        </div>
+
+                        <div class="field">
+                            <p:outputLabel for="@next" value="Rating"/>
+                            <p:inputText id="rating" value="#{manageMoviesView.currentMovie.rating}"/>
+                            <p:message for="rating" />
+                        </div>
+
+                        <!-- Date picker for LocalDate -->
+                        <div class="field col-12 md:col-3">
+                            <p:outputLabel for="@next" value="Release Date"/>
+                            <p:datePicker id="releaseDate"
+                                          value="#{manageMoviesView.currentMovie.releaseDate}"
+                                          pattern="yyyy-MM-dd"
+                                          showIcon="true"
+                                          monthNavigator="true"
+                                          yearNavigator="true">
+                                <f:convertDateTime type="localDate" pattern="yyyy-MM-dd" />
+                            </p:datePicker>
+                            <p:message for="releaseDate" />
+                        </div>
+
+
+                        <!-- Buttons for form submission and clearing -->
+                        <div class="formgroup-inline">
+                            <div class="field">
+                                <p:commandButton value="Submit"
+                                                 action="#{manageMoviesView.onSubmit}"
+                                                 update=":messages :growl @form manageMoviesView_tableForm:dataTable"/>
+                            </div>
+                            <div class="field">
+                                <p:commandButton value="Clear"
+                                                 action="#{manageMoviesView.onClear}"
+                                                 update="@form :outputPanel"
+                                                 process="@this"
+                                                 styleClass="ui-button-secondary"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </p:panel>
+            </h:form>
+
+            <!-- === Data Table for Displaying Records === -->
+            <!-- Ensure rowKey references a unique property in your data model -->
+            <h:form id="manageMoviesView_tableForm">
+                <div class="card">
+                    <p:dataTable id="dataTable"
+                                 value="#{manageMoviesView.movies}"
+                                 var="it"
+                                 reflow="true"
+                                 rowKey="#{it.id}"
+                                 paginator="true" rows="10"
+                                 role="grid" aria-label="Data Table">
+
+                        <p:column headerText="Title">
+                            <h:outputText value="#{it.title}" />
+                        </p:column>
+
+                        <p:column headerText="Release Date">
+                            <h:outputText value="#{it.releaseDate}">
+                                <f:convertDateTime type="localDate" pattern="MM/dd/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="Price">
+                            <h:outputText value="#{it.price}">
+                                <f:convertNumber type="currency" locale="en_CA"/>
+                            </h:outputText>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </div>
+            </h:form>
+
+        </div>
+    </ui:define>
+
+
+</ui:composition>
