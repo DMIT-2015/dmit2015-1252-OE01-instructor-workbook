@@ -2,6 +2,7 @@ package dmit2015.repository;
 
 import dmit2015.config.ApplicationConfig;
 import dmit2015.entity.Movie;
+import dmit2015.entity.MovieInitializer;
 import jakarta.annotation.Resource;
 import jakarta.inject.Inject;
 import jakarta.transaction.NotSupportedException;

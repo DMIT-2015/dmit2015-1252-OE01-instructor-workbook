@@ -1,8 +1,8 @@
 
 
-package dmit2015.repository;
+package dmit2015.entity;
 
-import dmit2015.entity.Movie;
+import dmit2015.repository.MovieRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.Initialized;
 import jakarta.enterprise.event.Observes;
@@ -12,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
