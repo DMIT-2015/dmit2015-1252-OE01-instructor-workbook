@@ -15,7 +15,6 @@ public class StudentInitializer {
     @Inject
     private StudentRepository studentRepository;
 
-    @Transactional
     public void initialize(@Observes @Initialized(ApplicationScoped.class) Object event) {
 
         long studentCount = studentRepository.count();

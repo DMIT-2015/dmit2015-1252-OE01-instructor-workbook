@@ -1,0 +1,61 @@
+<!-- This is a Faces composition page that extends the layout template -->
+<ui:composition
+        template="/WEB-INF/faces-templates/layout.xhtml"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:h="jakarta.faces.html"
+        xmlns:f="jakarta.faces.core"
+        xmlns:p="primefaces"
+        xmlns:o="http://omnifaces.org/ui">
+
+    <!-- Page metadata for title, description, and keywords -->
+    <ui:param name="title" value="query"/>
+
+    <!-- Define main content for the page -->
+    <ui:define name="maincontent">
+        <div class="card">
+            <h1 role="heading" aria-level="1">Employee Query</h1>
+            <h:form id="query_form" role="form">
+                <p:panel header="Welcome to Employee  Query">
+                    <!-- Add page-specific content here, e.g., PrimeFaces components -->
+
+                    <div class="field col-12 md:col-4">
+                        <p:outputLabel value="Department name" for="@next"/>
+                        <p:autoComplete id="dept" value="#{employeeQueryView.selectedDepartment}"
+                                        completeMethod="#{employeeQueryView.completeDepartment}"
+                                        var="dept"
+                                        itemLabel="#{dept.departmentName}"
+                                        itemValue="#{dept}"
+                                        converter="#{departmentConverter}"
+                                        forceSelection="true"
+                                        scrollHeight="250"/>
+                    </div>
+
+                    <div class="field">
+                        <p:commandButton value="Search By Department" styleClass="col-fixed"
+                                         action="#{employeeQueryView.onSearchByDepartment()}"
+                                         update=":messages :growl @form dataTable"
+                        >
+                        </p:commandButton>
+                    </div>
+                </p:panel>
+            </h:form>
+        </div>
+        <h:form prependId="false" id="outputPanel">
+            <div class="card">
+                <p:dataTable id="dataTable"
+                             value="#{employeeQueryView.queryResults}"
+                             var="currentItem"
+                             reflow="true"
+                             rowKey="#{currentItem.id}"
+                             paginator="true" rows="10"
+                             paginatorPosition="bottom">
+                <p:column headerText="Name">
+                    <h:outputText value="#{currentItem.firstName} #{currentItem.lastName}"  />
+                </p:column>
+
+                </p:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

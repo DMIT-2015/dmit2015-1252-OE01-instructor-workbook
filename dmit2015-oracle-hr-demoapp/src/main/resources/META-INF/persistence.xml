@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="oracle-jpa-hr-pu" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:app/datasources/OracleHrDS</jta-data-source>
+
+        <class>dmit2015.entity.Country</class>
+        <class>dmit2015.entity.Department</class>
+        <class>dmit2015.entity.Employee</class>
+        <class>dmit2015.entity.Job</class>
+        <class>dmit2015.entity.JobHistory</class>
+        <class>dmit2015.entity.JobHistoryId</class>
+        <class>dmit2015.entity.Location</class>
+        <class>dmit2015.entity.Region</class>
+
+        <properties>
+            <property name="hibernate.type.preferred_instant_jdbc_type" value="TIMESTAMP"/>
+        </properties>
+    </persistence-unit>
+
+</persistence>
