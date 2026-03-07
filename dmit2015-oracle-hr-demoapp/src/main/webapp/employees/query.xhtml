@@ -37,6 +37,15 @@
                         >
                         </p:commandButton>
                     </div>
+
+                    <div class="field">
+                        <p:commandButton value="Clear"
+                                         action="#{employeeQueryView.onClear()}"
+                                         update="@form :outputPanel dataTable"
+                                         styleClass="ui-button-secondary"
+                        >
+                        </p:commandButton>
+                    </div>
                 </p:panel>
             </h:form>
         </div>
@@ -49,9 +58,35 @@
                              rowKey="#{currentItem.id}"
                              paginator="true" rows="10"
                              paginatorPosition="bottom">
-                <p:column headerText="Name">
-                    <h:outputText value="#{currentItem.firstName} #{currentItem.lastName}"  />
-                </p:column>
+
+                    <p:column headerText="Name">
+                        <h:outputText value="#{currentItem.fullName}" />
+                    </p:column>
+
+                    <p:column headerText="Job Title">
+                        <h:outputText value="#{currentItem.job.jobTitle}" />
+                    </p:column>
+
+                    <p:column headerText="Hire Date">
+                        <h:outputText value="#{currentItem.hireDate}">
+                            <f:convertDateTime type="localDate" pattern="MM/dd/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Salary">
+                        <h:outputText value="#{currentItem.salary}">
+                            <f:convertNumber type="currency" locale="en_CA"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Department">
+                        <h:outputText value="#{currentItem.department.departmentName}">
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Manager">
+                        <h:outputText value="#{(empty currentItem.manager) ? 'No Manager' : currentItem.manager.fullName}" />
+                    </p:column>
 
                 </p:dataTable>
             </div>
