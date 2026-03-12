@@ -72,5 +72,21 @@
             <role-name>Shipping</role-name>
         </auth-constraint>
     </security-constraint>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/errorpages/403.xhtml</location>
+    </error-page>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>UseHttpsOnly</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
 </web-app>
 
