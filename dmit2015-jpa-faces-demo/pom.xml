@@ -245,6 +245,11 @@ deploy, redeploy, undeploy or run your application.  -->
                 <version>5.1.5.Final</version>
 
                 <configuration>
+                    <scripts>
+                        <script>./wildfly-scripts/configure-elytron.cli</script>
+                        <script>./wildfly-scripts/enable-oneway-https.cli</script>
+                    </scripts>
+
                     <feature-packs>
                         <feature-pack>
                             <location>wildfly@maven(org.jboss.universe:community-universe)#39.0.1.Final</location>

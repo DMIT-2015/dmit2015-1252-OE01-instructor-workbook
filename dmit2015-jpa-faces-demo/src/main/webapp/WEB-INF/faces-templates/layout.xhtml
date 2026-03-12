@@ -51,6 +51,13 @@
                               <p:menuitem value="Create" icon="pi pi-plus" outcome="/students/create"/>
                             </p:submenu>
                             -->
+
+                            <c:if test="${not empty request.userPrincipal}">
+                                <p:menuitem value="Logout #{request.userPrincipal.name}" action="#{oidcLogout.submit}" />
+                            </c:if>
+                            <c:if test="${empty request.userPrincipal}">
+                                <p:menuitem value="Login" outcome="/movies/create.xhtml" />
+                            </c:if>
                         </p:menubar>
                     </ui:insert>
                 </h:form>
