@@ -69,7 +69,7 @@ public class MovieInitializer {
                 while ((line = reader.readLine()) != null) {
                     Optional<Movie> maybeMovie = Movie.parseCsv(line);
                     if (maybeMovie.isPresent()) {
-                        movieRepository.add(maybeMovie.get());
+//                        movieRepository.add(maybeMovie.get());
                     } else {
                         LOGGER.fine("Skipping invalid CSV row: " + line);
                     }

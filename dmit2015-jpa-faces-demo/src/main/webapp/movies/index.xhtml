@@ -17,6 +17,10 @@
     <ui:param name="title" value="Movie - List"/>
 
     <ui:define name="maincontent">
+        <f:metadata>
+            <f:viewParam name="dummy" />
+            <f:event type="postInvokeAction" listener="#{currentMovieListView.init()}" />
+        </f:metadata>
 
         <h1>Movie List</h1>
 

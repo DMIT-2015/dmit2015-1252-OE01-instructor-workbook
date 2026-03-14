@@ -56,6 +56,8 @@ public class MovieEditView implements Serializable {
             movieRepository.update(existingMovie);
             Messages.addFlashGlobalInfo("Update was successful.");
             nextPage = "index?faces-redirect=true";
+        } catch (RuntimeException ex) {
+            Messages.addGlobalWarn(ex.getMessage());
         } catch (Exception e) {
             Messages.addGlobalError("Update was not successful.");
         }

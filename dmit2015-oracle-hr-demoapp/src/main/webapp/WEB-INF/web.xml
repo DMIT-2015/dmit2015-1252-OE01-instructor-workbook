@@ -21,4 +21,42 @@
         <param-value>true</param-value>
     </context-param>
 
+    <security-role>
+        <role-name>Human Resources</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>Administration</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>Sales</role-name>
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>CanManageMovies</web-resource-name>
+            <url-pattern>/employees/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>Human Resources</role-name>
+            <role-name>Administration</role-name>
+            <role-name>Sales</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>UseHttpsOnly</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorpages/500.xhtml</location>
+    </error-page>
 </web-app>
