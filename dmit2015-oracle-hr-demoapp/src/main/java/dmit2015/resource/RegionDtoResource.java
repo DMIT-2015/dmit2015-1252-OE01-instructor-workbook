@@ -2,46 +2,56 @@ package dmit2015.resource;
 
 import common.validation.JavaBeanValidator;
 import dmit2015.entity.Region;
+import dmit2015.dto.RegionDto;
+import dmit2015.mapper.RegionMapper;
 import dmit2015.repository.RegionRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.*;
 
 import java.net.URI;
+import java.util.stream.Collectors;
 
 /**
  * This Jakarta RESTful Web Services root resource class provides common REST API endpoints to
- * perform CRUD operations on Jakarta Persistence entity.
+ * perform CRUD operations on the DTO (Data Transfer Object) for a Jakarta Persistence entity.
  */
 @ApplicationScoped
-@Path("Regions")                    // All methods of this class are associated this URL path
-@Consumes(MediaType.APPLICATION_JSON)    // All methods this class accept only JSON format data
-@Produces(MediaType.APPLICATION_JSON)    // All methods returns data that has been converted to JSON format
-public class RegionResource {
+@Path("Regions")                // All methods in this class are associated this URL path
+@Consumes(MediaType.APPLICATION_JSON)
+// All methods in this class expects method parameters to contain data in JSON format
+@Produces(MediaType.APPLICATION_JSON)    // All methods in this class returns data in JSON format
+public class RegionDtoResource {
 
     @Inject
     private RegionRepository regionRepository;
 
     @GET    // This method only accepts HTTP GET requests.
     public Response findAllRegionsRegions() {
-        return Response.ok(regionRepository.findAll()).build();
+        return Response.ok(
+                regionRepository
+                        .findAll()
+                        .stream()
+                        .map(RegionMapper.INSTANCE::toDto)
+                        .collect(Collectors.toList())
+        ).build();
     }
 
     @Path("{id}")
     @GET    // This method only accepts HTTP GET requests.
-    public Response findRegionById(@PathParam("id") Long id) {
+    public Response findRegionByIdRegionById(@PathParam("id") Long id) {
         Region existingRegion = regionRepository.findById(id).orElseThrow(NotFoundException::new);
 
-        return Response.ok(existingRegion).build();
+        RegionDto dto = RegionMapper.INSTANCE.toDto(existingRegion);
+
+        return Response.ok(dto).build();
     }
 
     @POST    // This method only accepts HTTP POST requests.
-    public Response createRegionRegion(Region newRegion, @Context UriInfo uriInfo) {
+    public Response createRegionRegion(RegionDto dto, @Context UriInfo uriInfo) {
+        Region newRegion = RegionMapper.INSTANCE.toEntity(dto);
 
         String errorMessage = JavaBeanValidator.validateBean(newRegion);
         if (errorMessage != null) {
@@ -62,13 +72,14 @@ public class RegionResource {
                     .build();
         }
 
-        // userInfo is injected via @Context parameter to this method
-        URI location = uriInfo.getAbsolutePathBuilder()
-                .path(String.valueOf(newRegion.getId()))
-                .build();
+        // uriInfo is injected via @Context parameter to this method
+        URI location = UriBuilder
+                .fromPath(uriInfo.getPath())
+                .path("{id}")
+                .build(newRegion.getId());
 
         // Set the location path of the new entity with its identifier
-        // Returns an HTTP status of "201 Created" if the Region was successfully persisted
+        // Returns an HTTP status of "201 Created" if the Region was created.
         return Response
                 .created(location)
                 .build();
@@ -76,10 +87,16 @@ public class RegionResource {
 
     @PUT            // This method only accepts HTTP PUT requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response updateRegionRegion(@PathParam("id") Long id, Region updatedRegion) {
-        if (!id.equals(updatedRegion.getId())) {
+    public Response updateRegionRegion(@PathParam("id") Long id, RegionDto dto) {
+        if (!id.equals(dto.getId())) {
             throw new BadRequestException();
         }
+
+        Region existingRegion = regionRepository
+                .findById(id)
+                .orElseThrow(NotFoundException::new);
+
+        Region updatedRegion = RegionMapper.INSTANCE.toEntity(dto);
 
         String errorMessage = JavaBeanValidator.validateBean(updatedRegion);
         if (errorMessage != null) {
@@ -89,9 +106,6 @@ public class RegionResource {
                     .build();
         }
 
-        Region existingRegion = regionRepository
-                .findById(id)
-                .orElseThrow(NotFoundException::new);
         existingRegion.setRegionName(updatedRegion.getRegionName());
 
         try {
@@ -110,12 +124,13 @@ public class RegionResource {
         }
 
         // Returns an HTTP status "200 OK" and include in the body of the response the object that was updated
-        return Response.ok(existingRegion).build();
+        RegionDto updatedDto = RegionMapper.INSTANCE.toDto(existingRegion);
+        return Response.ok(updatedDto).build();
     }
 
     @DELETE            // This method only accepts HTTP DELETE requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
-    public Response deleteRegion(@PathParam("id") Long id) {
+    public Response deleteRegionRegion(@PathParam("id") Long id) {
 
         Region existingRegion = regionRepository
                 .findById(id)
@@ -131,8 +146,9 @@ public class RegionResource {
                     .build();
         }
 
-        // Returns an HTTP status "204 No Content" to indicated that the resource was deleted
+        // Returns an HTTP status "204 No Content" to indicate the resource was deleted
         return Response.noContent().build();
+
     }
 
 }

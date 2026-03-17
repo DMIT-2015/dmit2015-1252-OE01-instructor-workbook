@@ -22,7 +22,7 @@ public class Region {
     @Column(name = "REGION_NAME", length = 25)
     private String regionName;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "region")
     private Set<Country> countries = new LinkedHashSet<>();
 
