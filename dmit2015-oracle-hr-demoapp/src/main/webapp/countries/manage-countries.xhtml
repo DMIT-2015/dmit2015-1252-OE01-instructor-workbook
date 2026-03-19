@@ -1,0 +1,180 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="primefaces"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="CountryDto - CRUD"/>
+
+    <ui:param name="internalstyles"
+              value=".CountryDtos-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
+
+    <ui:define name="maincontent">
+
+        <div class="card">
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true">
+                    <p:autoUpdate/>
+                </p:growl>
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton id="newButton"
+                                         value="New"
+                                         icon="pi pi-plus"
+                                         actionListener="#{currentCountryDtoCrudView.onOpenNew}"
+                                         update=":dialogs:manage-CountryDto-content"
+                                         oncomplete="PF('manageCountryDtoDialog').show()"
+                                         styleClass="ui-button-success"
+                                         style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-CountryDto-content"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-CountryDtos" widgetVar="dtCountryDtos"
+                             value="#{currentCountryDtoCrudView.countryDtos}"
+                             var="currentItem"
+                             reflow="true"
+                             selection="#{currentCountryDtoCrudView.selectedCountryDto}"
+                             rowKey="#{currentItem.id}"
+                             paginator="true" rows="10"
+                             paginatorPosition="bottom">
+
+                    <f:facet name="header">
+                        <div class="CountryDtos-table-header">
+                            <span style="font-weight: bold">CountryDtos</span>
+                            <span class="filter-container ui-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <p:inputText id="globalFilter" onkeyup="PF('dtCountryDtos').filter()"
+                                             placeholder="Search"/>
+                            </span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="CountryID" filterBy="#{currentItem.id}">
+                        <h:outputText value="#{currentItem.id}"/>
+                    </p:column>
+                    <p:column headerText="Country Name" filterBy="#{currentItem.countryName}">
+                        <h:outputText value="#{currentItem.countryName}"/>
+                    </p:column>
+                    <p:column headerText="Region Name">
+                        <h:outputText value="#{currentItem.regionName}"/>
+                    </p:column>
+
+                    <p:column exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton icon="pi pi-pencil"
+                                         update=":dialogs:manage-CountryDto-content"
+                                         oncomplete="PF('manageCountryDtoDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{currentItem}"
+                                                         target="#{currentCountryDtoCrudView.selectedCountryDto}"/>
+                            <f:setPropertyActionListener value="#{currentItem.id}"
+                                                         target="#{currentCountryDtoCrudView.selectedId}"/>
+                            <p:resetInput target=":dialogs:manage-CountryDto-content"/>
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteCountryDtoDialog').show()">
+                            <f:setPropertyActionListener value="#{currentItem}"
+                                                         target="#{currentCountryDtoCrudView.selectedCountryDto}"/>
+                            <f:setPropertyActionListener value="#{currentItem.id}"
+                                                         target="#{currentCountryDtoCrudView.selectedId}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="CountryDto Details" showEffect="fade" modal="true" widgetVar="manageCountryDtoDialog"
+                          responsive="true">
+
+                    <p:messages id="messages">
+                        <p:autoUpdate/>
+                    </p:messages>
+
+                    <p:outputPanel id="manage-CountryDto-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty currentCountryDtoCrudView.selectedCountryDto}">
+                            <div class="field">
+                                <p:outputLabel for="@next">CountryID</p:outputLabel>
+                                <p:inputText
+                                        id="countryId"
+                                        value="#{currentCountryDtoCrudView.selectedCountryDto.id}">
+                                </p:inputText>
+                                <p:message for="@previous" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="@next">Country Name</p:outputLabel>
+                                <p:inputText
+                                        id="countryName"
+                                        value="#{currentCountryDtoCrudView.selectedCountryDto.countryName}">
+                                </p:inputText>
+                                <p:message for="@previous" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="@next">Region</p:outputLabel>
+                                <p:selectOneMenu
+                                        id="regionId"
+                                        value="#{currentCountryDtoCrudView.selectedCountryDto.regionId}">
+                                    <f:selectItems value="#{currentCountryDtoCrudView.regions}"
+                                                   var="region"
+                                                   itemLabel="#{region.regionName}"
+                                                   itemValue="#{region.id}" />
+                                </p:selectOneMenu>
+                                <p:message for="@previous" />
+                            </div>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="saveButton"
+                                         value="Save"
+                                         icon="pi pi-check"
+                                         actionListener="#{currentCountryDtoCrudView.onSave}"
+                                         update="manage-CountryDto-content"
+                                         process="manage-CountryDto-content @this"/>
+
+                        <p:commandButton id="cancelButton"
+                                         value="Cancel"
+                                         icon="pi pi-times"
+                                         onclick="PF('manageCountryDtoDialog').hide()"
+                                         class="ui-button-secondary"
+                                         type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteCountryDtoDialog" showEffect="fade" width="300"
+                                 message="Delete the CountryDto?" header="Confirm" severity="warn">
+                    <p:commandButton value="Yes" icon="pi pi-check"
+                                     actionListener="#{currentCountryDtoCrudView.onDelete}"
+                                     process="@this"
+                                     oncomplete="PF('deleteCountryDtoDialog').hide()"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteCountryDtoDialog').hide()"/>
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

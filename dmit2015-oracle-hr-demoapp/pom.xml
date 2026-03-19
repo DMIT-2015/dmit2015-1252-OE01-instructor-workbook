@@ -199,6 +199,12 @@
             <version>1.6.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.microprofile.rest.client</groupId>
+            <artifactId>microprofile-rest-client-api</artifactId>
+            <version>4.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -262,6 +268,11 @@
                     <debug>true</debug>
                     <debugPort>8787</debugPort>
                     <debugSuspend>false</debugSuspend>
+
+                    <server-args>
+                        <server-arg>-Djboss.socket.binding.port-offset=10</server-arg>
+                    </server-args>
+                    <port>10000</port>
                 </configuration>
             </plugin>
 

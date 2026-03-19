@@ -1,0 +1,166 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:faces="jakarta.faces"
+        xmlns:ui="jakarta.faces.facelets"
+        xmlns:f="jakarta.faces.core"
+        xmlns:h="jakarta.faces.html"
+        xmlns:pt="jakarta.faces.passthrough"
+        xmlns:cc="jakarta.faces.composite"
+        xmlns:c="jakarta.tags.core"
+        xmlns:fn="jakarta.tags.functions"
+        xmlns:o="http://omnifaces.org/ui"
+        xmlns:of="http://omnifaces.org/functions"
+        xmlns:p="primefaces"
+        template="/WEB-INF/faces-templates/layout.xhtml"
+>
+
+    <ui:param name="title" value="RegionDto - CRUD"/>
+
+    <ui:param name="internalstyles"
+              value=".RegionDtos-table-header { display: flex; align-items:center; justify-content: space-between; flex-wrap: wrap; }"/>
+
+    <ui:define name="maincontent">
+
+        <div class="card">
+            <h:form id="form">
+                <p:growl id="growl" showDetail="true">
+                    <p:autoUpdate/>
+                </p:growl>
+
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton id="newButton"
+                                         value="New"
+                                         icon="pi pi-plus"
+                                         actionListener="#{currentRegionDtoCrudView.onOpenNew}"
+                                         update=":dialogs:manage-RegionDto-content"
+                                         oncomplete="PF('manageRegionDtoDialog').show()"
+                                         styleClass="ui-button-success"
+                                         style="margin-right: .5rem">
+                            <p:resetInput target=":dialogs:manage-RegionDto-content"/>
+                        </p:commandButton>
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:dataTable id="dt-RegionDtos" widgetVar="dtRegionDtos"
+                             value="#{currentRegionDtoCrudView.regionDtos}"
+                             var="currentItem"
+                             reflow="true"
+                             selection="#{currentRegionDtoCrudView.selectedRegionDto}"
+                             rowKey="#{currentItem.id}"
+                             paginator="true" rows="10"
+                             paginatorPosition="bottom">
+
+                    <f:facet name="header">
+                        <div class="RegionDtos-table-header">
+                            <span style="font-weight: bold">RegionDtos</span>
+                            <span class="filter-container ui-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <p:inputText id="globalFilter" onkeyup="PF('dtRegionDtos').filter()"
+                                             placeholder="Search"/>
+                            </span>
+                        </div>
+                    </f:facet>
+
+                    <p:column headerText="RegionID" filterBy="#{currentItem.id}">
+                        <h:outputText value="#{currentItem.id}"/>
+                    </p:column>
+                    <p:column headerText="Region Name" filterBy="#{currentItem.regionName}">
+                        <h:outputText value="#{currentItem.regionName}"/>
+                    </p:column>
+
+
+                    <p:column exportable="false" ariaHeaderText="Actions">
+                        <p:commandButton icon="pi pi-pencil"
+                                         update=":dialogs:manage-RegionDto-content"
+                                         oncomplete="PF('manageRegionDtoDialog').show()"
+                                         styleClass="edit-button rounded-button ui-button-success"
+                                         process="@this">
+                            <f:setPropertyActionListener value="#{currentItem}"
+                                                         target="#{currentRegionDtoCrudView.selectedRegionDto}"/>
+                            <f:setPropertyActionListener value="#{currentItem.id}"
+                                                         target="#{currentRegionDtoCrudView.selectedId}"/>
+                            <p:resetInput target=":dialogs:manage-RegionDto-content"/>
+                        </p:commandButton>
+                        <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                         process="@this"
+                                         oncomplete="PF('deleteRegionDtoDialog').show()">
+                            <f:setPropertyActionListener value="#{currentItem}"
+                                                         target="#{currentRegionDtoCrudView.selectedRegionDto}"/>
+                            <f:setPropertyActionListener value="#{currentItem.id}"
+                                                         target="#{currentRegionDtoCrudView.selectedId}"/>
+                        </p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+
+            <h:form id="dialogs">
+                <p:dialog header="RegionDto Details" showEffect="fade" modal="true" widgetVar="manageRegionDtoDialog"
+                          responsive="true">
+
+                    <p:messages id="messages">
+                        <p:autoUpdate/>
+                    </p:messages>
+
+                    <p:outputPanel id="manage-RegionDto-content" class="ui-fluid">
+                        <p:outputPanel rendered="#{not empty currentRegionDtoCrudView.selectedRegionDto}">
+                            <div class="field">
+                                <p:outputLabel for="@next">RegionID</p:outputLabel>
+                                <p:inputNumber
+                                        id="regionId"
+                                        value="#{currentRegionDtoCrudView.selectedRegionDto.id}">
+                                </p:inputNumber>
+                                <p:message for="@previous" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel for="@next">Region Name</p:outputLabel>
+                                <p:inputText
+                                        id="regionName"
+                                        value="#{currentRegionDtoCrudView.selectedRegionDto.regionName}">
+                                </p:inputText>
+                                <p:message for="@previous" />
+                            </div>
+
+                        </p:outputPanel>
+                    </p:outputPanel>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="saveButton"
+                                         value="Save"
+                                         icon="pi pi-check"
+                                         actionListener="#{currentRegionDtoCrudView.onSave}"
+                                         update="manage-RegionDto-content"
+                                         process="manage-RegionDto-content @this"/>
+
+                        <p:commandButton id="cancelButton"
+                                         value="Cancel"
+                                         icon="pi pi-times"
+                                         onclick="PF('manageRegionDtoDialog').hide()"
+                                         class="ui-button-secondary"
+                                         type="button"/>
+                    </f:facet>
+                </p:dialog>
+
+                <p:confirmDialog widgetVar="deleteRegionDtoDialog" showEffect="fade" width="300"
+                                 message="Delete the RegionDto?" header="Confirm" severity="warn">
+                    <p:commandButton value="Yes" icon="pi pi-check"
+                                     actionListener="#{currentRegionDtoCrudView.onDelete}"
+                                     process="@this"
+                                     oncomplete="PF('deleteRegionDtoDialog').hide()"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                                     onclick="PF('deleteRegionDtoDialog').hide()"/>
+                </p:confirmDialog>
+
+                <p:confirmDialog global="true" showEffect="fade" width="300">
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                                     icon="pi pi-times"/>
+                </p:confirmDialog>
+            </h:form>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

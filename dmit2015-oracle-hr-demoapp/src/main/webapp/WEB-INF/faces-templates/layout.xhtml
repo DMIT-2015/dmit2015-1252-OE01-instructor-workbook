@@ -48,12 +48,12 @@
                                         icon="pi pi-search"
                                         url="#{request.contextPath}/employees/query.xhtml"/>
 
-                            <!-- Example submenu scaffold
-                            <p:submenu label="Students" icon="pi pi-users">
-                              <p:menuitem value="List" icon="pi pi-list" outcome="/students/index"/>
-                              <p:menuitem value="Create" icon="pi pi-plus" outcome="/students/create"/>
+                            <p:submenu label="REST Client" icon="pi pi-users">
+                              <p:menuitem value="Regions" icon="pi pi-list" outcome="/regions/manage-regions.xhtml"/>
+                              <p:menuitem value="Countries" icon="pi pi-plus" outcome="/countries/manage-countries.xhtml"/>
                             </p:submenu>
-                            -->
+
+
                             <c:if test="${not empty request.userPrincipal}">
                                 <p:menuitem value="Logout #{request.userPrincipal.name}" action="#{oidcLogout.submit}" />
                             </c:if>

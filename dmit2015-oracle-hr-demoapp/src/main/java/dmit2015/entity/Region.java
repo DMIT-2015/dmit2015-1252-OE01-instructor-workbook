@@ -2,6 +2,7 @@ package dmit2015.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class Region {
     private Long id;
 
     @Size(max = 25)
+    @NotBlank
     @Column(name = "REGION_NAME", length = 25)
     private String regionName;
 
