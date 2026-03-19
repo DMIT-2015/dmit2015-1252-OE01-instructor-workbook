@@ -266,7 +266,7 @@
                             Select the process with the `jboss-module.jar (8787)` name to attach to.
                     -->
                     <debug>true</debug>
-                    <debugPort>8787</debugPort>
+                    <debugPort>8797</debugPort>
                     <debugSuspend>false</debugSuspend>
 
                     <server-args>
