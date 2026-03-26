@@ -61,7 +61,12 @@
     </header>
 
     <main>
-        <p:growl id="growl"/>
+        <p:messages id="messages" showDetail="false" closable="true">
+            <p:autoUpdate/>
+        </p:messages>
+        <p:growl id="growl" showDetail="true" life="3000" sticky="false">
+            <p:autoUpdate/>
+        </p:growl>
 
         <ui:insert name="maincontent">
             NO MAIN CONTENT PROVIDED

@@ -4,6 +4,13 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
+    <!-- To use security role annotations (@RolesAllowed, @PermitAll, @DenyAll) with JAX-RS in Wildfly,
+    you MUST set to "true" the context-param "resteasy.role.based.security" -->
+    <context-param>
+        <param-name>resteasy.role.based.security</param-name>
+        <param-value>true</param-value> <!-- Explicitly required to use @RolesAllowed, @PermitAll with JAX-RS -->
+    </context-param>
+
     <!-- Define a list of default files to server when a directory is requested. -->
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>

@@ -19,6 +19,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.eclipse.microprofile</groupId>
+            <artifactId>microprofile</artifactId>
+            <version>7.0</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <version>10.0.0</version>
@@ -38,11 +46,11 @@
         </dependency>
 
         <!-- MicroProfile Config is for reading configuration information from src/main/resources/META-INF/microprofile-config.properties file. -->
-        <dependency>
-            <groupId>org.eclipse.microprofile.config</groupId>
-            <artifactId>microprofile-config-api</artifactId>
-            <version>3.1</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.microprofile.config</groupId>-->
+<!--            <artifactId>microprofile-config-api</artifactId>-->
+<!--            <version>3.1</version>-->
+<!--        </dependency>-->
 
         <!-- DataFaker is for creating fake data using a provider -->
         <dependency>
@@ -199,11 +207,11 @@
             <version>1.6.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.eclipse.microprofile.rest.client</groupId>
-            <artifactId>microprofile-rest-client-api</artifactId>
-            <version>4.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.eclipse.microprofile.rest.client</groupId>-->
+<!--            <artifactId>microprofile-rest-client-api</artifactId>-->
+<!--            <version>4.0</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
@@ -246,10 +254,10 @@
                 <version>5.1.5.Final</version>
                 <configuration>
 
-                    <scripts>
-                        <script>./wildfly-scripts/configure-elytron.cli</script>
-                        <script>./wildfly-scripts/enable-oneway-https.cli</script>
-                    </scripts>
+<!--                    <scripts>-->
+<!--                        <script>./wildfly-scripts/configure-elytron.cli</script>-->
+<!--                        <script>./wildfly-scripts/enable-oneway-https.cli</script>-->
+<!--                    </scripts>-->
 
                     <feature-packs>
                         <feature-pack>
@@ -273,7 +281,20 @@
                         <server-arg>-Djboss.socket.binding.port-offset=10</server-arg>
                     </server-args>
                     <port>10000</port>
+                    <timeout>360</timeout>
+
+                    <layers>
+                        <!-- https://docs.wildfly.org/35/WildFly_Maven_Plugin_Guide.html#wildfly_layers -->
+                        <layer>cloud-server</layer>
+                        <layer>microprofile-config</layer>
+                        <layer>microprofile-rest-client</layer>
+                        <layer>microprofile-openapi</layer>
+                        <layer>jsf</layer>
+                        <layer>microprofile-jwt</layer>
+                    </layers>
                 </configuration>
+
+
             </plugin>
 
 

@@ -5,6 +5,7 @@ import dmit2015.entity.Region;
 import dmit2015.dto.RegionDto;
 import dmit2015.mapper.RegionMapper;
 import dmit2015.repository.RegionRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.OptimisticLockException;
@@ -49,6 +50,7 @@ public class RegionDtoResource {
         return Response.ok(dto).build();
     }
 
+    @RolesAllowed({"Sales","Administration"})
     @POST    // This method only accepts HTTP POST requests.
     public Response createRegionRegion(RegionDto dto, @Context UriInfo uriInfo) {
         Region newRegion = RegionMapper.INSTANCE.toEntity(dto);
@@ -85,6 +87,7 @@ public class RegionDtoResource {
                 .build();
     }
 
+    @RolesAllowed({"Sales"})
     @PUT            // This method only accepts HTTP PUT requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
     public Response updateRegionRegion(@PathParam("id") Long id, RegionDto dto) {
@@ -128,6 +131,7 @@ public class RegionDtoResource {
         return Response.ok(updatedDto).build();
     }
 
+    @RolesAllowed({"Administration"})
     @DELETE            // This method only accepts HTTP DELETE requests.
     @Path("{id}")    // This method accepts a path parameter and gives it a name of id
     public Response deleteRegionRegion(@PathParam("id") Long id) {
