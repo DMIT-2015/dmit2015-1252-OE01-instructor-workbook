@@ -39,21 +39,21 @@ public class TodoItemInitializer {
                 todo1.setTask("Create JAX-RS demo project");
                 todo1.setDone(true);
                 todo1.setCreateTime(LocalDateTime.now());
-                todo1.setUsername("DLEE");
+                todo1.setUsername("dlee");
                 _todoItemRepository.add(todo1);
 
                 TodoItem todo2 = new TodoItem();
                 todo2.setTask("Run and verify all Integration Test pass");
                 todo2.setDone(false);
                 todo2.setCreateTime(LocalDateTime.now());
-                todo2.setUsername("ABANDA");
+                todo2.setUsername("abanda");
                 _todoItemRepository.add(todo2);
 
                 TodoItem todo3 = new TodoItem();
                 todo3.setTask("Create DTO version of TodoResource");
                 todo3.setDone(false);
                 todo3.setCreateTime(LocalDateTime.now());
-                todo3.setUsername("JSEO");
+                todo3.setUsername("jseo");
                 _todoItemRepository.add(todo3);
 
             } catch (Exception ex) {
